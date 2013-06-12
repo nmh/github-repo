@@ -3,6 +3,7 @@
 	<name>prodcon-ear</name>
 	<comment></comment>
 	<projects>
+		<project>prodcon-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
