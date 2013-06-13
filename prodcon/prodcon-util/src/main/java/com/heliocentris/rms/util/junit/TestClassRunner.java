@@ -22,21 +22,22 @@ import com.heliocentris.rms.util.service.Service;
 
 /**
  * Define your test case with
- * 
  * <pre>
- * &#064;RunWith(TestClassRunner.class)
- * &#064;PersistenceContext(unitName = &quot;test&quot;, properties = { @PersistenceProperty(name = &quot;hibernate.hbm2ddl.auto&quot;, value = &quot;create-drop&quot;) })
- * public class YourTestCase {
- * 
+ * @RunWith(TestClassRunner.class)
+ * @PersistenceContext(unitName="test", properties={@PersistenceProperty(name="hibernate.hbm2ddl.auto", value="create-drop")})
+ *
+ * public class YourTestCase
+ * {
+ *     
  * }
  * </pre>
  * 
- * and all connection and testClassRunnerTransaction will be handled for you
- * automatically.
+ * and all connection and testClassRunnerTransaction will be handled for you automatically.
  * 
+ * @organisation Heliocentris GmbH
  * @author thien
+ * @since 13.06.2013
  */
-
 public class TestClassRunner extends org.junit.runners.BlockJUnit4ClassRunner {
 	private static final Logger logger = LoggerFactory.getLogger(TestClassRunner.class);
 

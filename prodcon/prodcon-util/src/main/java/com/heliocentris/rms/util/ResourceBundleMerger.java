@@ -8,11 +8,12 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeSet;
 
+
 /**
  * 
- * @author Nguyen, Tuan-Thien
- * @version $Revision$
- * @since JDK 1.5.0
+ * @organisation Heliocentris GmbH
+ * @author Thien
+ * @since 13.06.2013
  */
 public class ResourceBundleMerger extends ResourceBundle
 {

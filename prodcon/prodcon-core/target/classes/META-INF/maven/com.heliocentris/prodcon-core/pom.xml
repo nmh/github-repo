@@ -1,214 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <artifactId>prodcon</artifactId>
-      <groupId>com.heliocentris</groupId>
-      <version>0.0.1-SNAPSHOT</version>
-   </parent>
+	<!-- The link to the hibernate-search parent POM only exists out of convenience 
+		since we are creating this archetype from an existing module of the Hibernate 
+		Search code base. If you want to know more about this process check the maven-archetype-plugin 
+		documentation http://maven.apache.org/archetype/maven-archetype-plugin, especially 
+		the goal create-from-project If you want to use this quick-start project 
+		as the base for your own application you should remove the <parent> entry. 
+		See also the other pointers in this pom! -->
+	<parent>
+		<artifactId>prodcon</artifactId>
+		<groupId>com.heliocentris</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
-   <artifactId>prodcon-core</artifactId>
-   <packaging>ejb</packaging>
+	<packaging>jar</packaging>
+	<name>prodcon core</name>
+	<url>http://www.myorganization.org</url>
+	<description>Hibernate Search quickstart is an archetype for a minimal application using fulltext query
+        capabilities.</description>
 
-   <name>prodcon EJB module</name>
+	<scm>
+		<connection>scm:git:git://github.com/hibernate/hibernate-search.git</connection>
+		<developerConnection>scm:git:git@github.com:hibernate/hibernate-search.git</developerConnection>
+		<url>http://github.com/hibernate/hibernate-search</url>
+	</scm>
 
-   <dependencies>
+	<organization>
+		<name>Hibernate</name>
+		<url>http://www.hibernate.org</url>
+	</organization>
 
-      <!-- Declare the APIs we depend on and need for compilation. All of 
-         them are provided by JBoss AS 7 -->
-
-      <!-- Import the EJB API, we use provided scope as the API is included 
-         in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.ejb</groupId>
-         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- Import the CDI API, we use provided scope as the API is included 
-         in JBoss AS 7 -->
-      <dependency>
-         <groupId>javax.enterprise</groupId>
-         <artifactId>cdi-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- Import the JPA API, we use provided scope as the API is included 
-         in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.hibernate.javax.persistence</groupId>
-         <artifactId>hibernate-jpa-2.0-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!-- JSR-303 (Bean Validation) Implementation -->
-      <!-- Provides portable constraints such as @Email -->
-      <!-- Hibernate Validator is shipped in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-validator</artifactId>
-         <scope>provided</scope>
-      </dependency>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+		</license>
+	</licenses>
 
 
-      <!-- Test scope dependencies -->
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-      </dependency>
+	<dependencies>
 
-      <!-- Optional, but highly recommended -->
-      <!-- Arquillian allows you to test enterprise code such as EJBs and 
-         Transactional(JTA) JPA from JUnit/TestNG -->
-      <dependency>
-         <groupId>org.jboss.arquillian.junit</groupId>
-         <artifactId>arquillian-junit-container</artifactId>
-         <version>1.0.0.CR4</version>
-         <scope>test</scope>
-      </dependency>
+		<dependency>
+			<groupId>com.heliocentris</groupId>
+			<artifactId>prodcon-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
-      <dependency>
-      	<groupId>com.heliocentris</groupId>
-      	<artifactId>prodcon-util</artifactId>
-      	<version>0.0.1-SNAPSHOT</version>
-      </dependency>
-   </dependencies>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
+		</dependency>
 
-   <build>
-      <plugins>
-         <plugin>
-            <artifactId>maven-ejb-plugin</artifactId>
-            <version>2.3</version>
-            <configuration>
-               <!-- Tell Maven we are using EJB 3.1 -->
-               <ejbVersion>3.1</ejbVersion>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.2-1003-jdbc4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.2.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+	</dependencies>
 
-   <profiles>
-      <profile>
-         <!-- The default profile skips all tests, though you can tune it 
-            to run just unit tests based on a custom pattern -->
-         <!-- Seperate profiles are provided for running all tests, including 
-            Arquillian tests that execute in the specified container -->
-         <id>default</id>
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <version>2.4.3</version>
-                  <configuration>
-                     <skip>true</skip>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-
-      <profile>
-         <!-- We add the JBoss repository as we need the JBoss AS connectors 
-            for Arquillian -->
-         <repositories>
-            <!-- The JBoss Community public repository is a composite repository 
-               of several major repositories -->
-            <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
-            <repository>
-               <id>jboss-public-repository</id>
-               <name>JBoss Repository</name>
-               <url>http://repository.jboss.org/nexus/content/groups/public</url>
-               <!-- These optional flags are designed to speed up your builds 
-                  by reducing remote server calls -->
-               <releases>
-               </releases>
-               <snapshots>
-                  <enabled>false</enabled>
-               </snapshots>
-            </repository>
-         </repositories>
-
-         <pluginRepositories>
-            <pluginRepository>
-               <id>jboss-public-repository</id>
-               <name>JBoss Repository</name>
-               <url>http://repository.jboss.org/nexus/content/groups/public</url>
-               <releases>
-               </releases>
-               <snapshots>
-                  <enabled>false</enabled>
-               </snapshots>
-            </pluginRepository>
-         </pluginRepositories>
-
-         <!-- An optional Arquillian testing profile that executes tests 
-            in your JBoss AS instance -->
-         <!-- This profile will start a new JBoss AS instance, and execute 
-            the test, shutting it down when done -->
-         <!-- Run with: mvn clean test -Parq-jbossas-managed -->
-         <id>arq-jbossas-managed</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.as</groupId>
-               <artifactId>jboss-as-arquillian-container-managed</artifactId>
-               <version>7.0.2.Final</version>
-               <scope>test</scope>
-            </dependency>
-         </dependencies>
-      </profile>
-
-      <profile>
-         <!-- We add the JBoss repository as we need the JBoss AS connectors 
-            for Arquillian -->
-         <repositories>
-            <!-- The JBoss Community public repository is a composite repository 
-               of several major repositories -->
-            <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
-            <repository>
-               <id>jboss-public-repository</id>
-               <name>JBoss Repository</name>
-               <url>http://repository.jboss.org/nexus/content/groups/public</url>
-               <!-- These optional flags are designed to speed up your builds 
-                  by reducing remote server calls -->
-               <releases>
-               </releases>
-               <snapshots>
-                  <enabled>false</enabled>
-               </snapshots>
-            </repository>
-         </repositories>
-
-         <pluginRepositories>
-            <pluginRepository>
-               <id>jboss-public-repository</id>
-               <name>JBoss Repository</name>
-               <url>http://repository.jboss.org/nexus/content/groups/public</url>
-               <releases>
-               </releases>
-               <snapshots>
-                  <enabled>false</enabled>
-               </snapshots>
-            </pluginRepository>
-         </pluginRepositories>
-
-         <!-- An optional Arquillian testing profile that executes tests 
-            in a remote JBoss AS instance -->
-         <!-- Run with: mvn clean test -Parq-jbossas-remote -->
-         <id>arq-jbossas-remote</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.as</groupId>
-               <artifactId>jboss-as-arquillian-container-remote</artifactId>
-               <version>7.0.2.Final</version>
-               <scope>test</scope>
-            </dependency>
-         </dependencies>
-      </profile>
-
-   </profiles>
-
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<!-- When removing the <parent> node the profile can be removed -->
+		<profile>
+			<id>archetype</id>
+			<activation>
+				<file>
+					<exists>archetype.properties</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-archetype-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<artifactId>prodcon-core</artifactId>
 </project>

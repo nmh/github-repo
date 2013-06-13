@@ -17,8 +17,14 @@ import com.heliocentris.rms.util.logger.Logger;
 import com.heliocentris.rms.util.logger.LoggerFactory;
 
 
+
 /**
+ * 
+ * @organisation Heliocentris GmbH
  * @author Thien
+ * @since 13.06.2013
+ * @param <Entity>
+ * @param <Key>
  */
 public abstract class AbstractEntityProvider<Entity extends Serializable, Key extends Serializable> implements EntityProvider<Entity, Key>
 {

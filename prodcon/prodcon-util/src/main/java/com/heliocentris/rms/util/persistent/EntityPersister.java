@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 /**
  * 
+ * @organisation Heliocentris GmbH
  * @author Thien
- *
+ * @since 13.06.2013
  * @param <Entity>
  * @param <Key>
  */

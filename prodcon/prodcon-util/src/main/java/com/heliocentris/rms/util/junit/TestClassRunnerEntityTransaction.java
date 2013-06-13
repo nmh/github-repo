@@ -17,48 +17,39 @@ import com.heliocentris.rms.util.logger.LoggerFactory;
  * <pre>
  * Service.getService(UserTransaction.class).commit();
  * </pre>
- * @author thien
- *
+ * 
+ * @organisation Heliocentris GmbH
+ * @author mnguyen
+ * @since 13.06.2013
  */
-public class TestClassRunnerEntityTransaction implements UserTransaction 
-{
+public class TestClassRunnerEntityTransaction implements UserTransaction {
 	private static final Logger logger = LoggerFactory.getLogger(TestClassRunnerEntityTransaction.class);
-	
-	private EntityTransaction entityTransaction;
-	
 
-	public EntityTransaction getEntityTransaction() 
-	{
+	private EntityTransaction entityTransaction;
+
+	public EntityTransaction getEntityTransaction() {
 		return entityTransaction;
 	}
 
-	public void setEntityTransaction(EntityTransaction entityTransaction) 
-	{
+	public void setEntityTransaction(EntityTransaction entityTransaction) {
 		this.entityTransaction = entityTransaction;
 	}
 
 	@Override
-	public void begin() 
-	{
-		if (!entityTransaction.isActive())
-		{
+	public void begin() {
+		if (!entityTransaction.isActive()) {
 			entityTransaction.begin();
 			logger.info("TRANSACTION BEGUN");
 		}
 	}
 
 	@Override
-	public void commit() 
-	{
-		if (entityTransaction.isActive())
-		{
-			if (entityTransaction.getRollbackOnly())
-			{
+	public void commit() {
+		if (entityTransaction.isActive()) {
+			if (entityTransaction.getRollbackOnly()) {
 				entityTransaction.rollback();
 				logger.info("TRANSACTION ROLLED BACK");
-			}
-			else
-			{
+			} else {
 				entityTransaction.commit();
 				logger.info("TRANSACTION COMMITTED");
 			}
@@ -66,28 +57,22 @@ public class TestClassRunnerEntityTransaction implements UserTransaction
 	}
 
 	@Override
-	public void rollback() 
-	{
-		if (entityTransaction.isActive())
-		{
+	public void rollback() {
+		if (entityTransaction.isActive()) {
 			entityTransaction.rollback();
 			logger.info("TRANSACTION ROLLED BACK");
 		}
 	}
 
 	@Override
-	public void setRollbackOnly() 
-	{
+	public void setRollbackOnly() {
 		entityTransaction.setRollbackOnly();
 	}
 
 	@Override
-	public int getStatus() throws SystemException 
-	{
-		if (entityTransaction != null && entityTransaction.isActive())
-		{
-			if (entityTransaction.getRollbackOnly())
-			{
+	public int getStatus() throws SystemException {
+		if (entityTransaction != null && entityTransaction.isActive()) {
+			if (entityTransaction.getRollbackOnly()) {
 				return Status.STATUS_MARKED_ROLLBACK;
 			}
 			return Status.STATUS_ACTIVE;
@@ -96,7 +81,6 @@ public class TestClassRunnerEntityTransaction implements UserTransaction
 	}
 
 	@Override
-	public void setTransactionTimeout(int seconds) throws SystemException 
-	{
+	public void setTransactionTimeout(int seconds) throws SystemException {
 	}
 }
