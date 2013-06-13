@@ -62,7 +62,7 @@ public class Subregion extends Domain
    private Set<Site> sites;
 
    @Embedded
-   @AssociationOverride(name="positions", joinTable=@JoinTable(name=AREA, joinColumns=@JoinColumn(name=SUBREGION)))
+//   @AssociationOverride(name="positions", joinTable=@JoinTable(name=AREA, joinColumns=@JoinColumn(name=SUBREGION)))
    Area area;
    
 

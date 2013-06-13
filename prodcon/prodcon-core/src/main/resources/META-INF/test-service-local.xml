@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                       http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jee 
+                           http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+
+ 	<bean id="entityManagerFactory" class="com.heliocentris.rms.util.service.Service"	factory-method="getService" destroy-method="close">
+		<constructor-arg value="javax.persistence.EntityManagerFactory" />
+	</bean>
+
+	<bean id="entityManager" factory-bean="entityManagerFactory" factory-method="createEntityManager"/>
+	
+	<bean id="entityTransaction" factory-bean="entityManager" factory-method="getTransaction" />
+	
+	<bean id="userTransaction" class="com.heliocentris.rms.util.junit.TestClassRunnerEntityTransaction">
+		<property name="entityTransaction" ref="entityTransaction" />
+	</bean>
+	
+    <bean id="staffPersister" class="com.heliocentris.rms.core.access.StaffPersisterBean" autowire="byName"/>
+
+    <bean id="dataTypePersister" class="com.heliocentris.rms.core.access.DataTypePersisterBean" autowire="byName"/>
+    <bean id="eventTypePersister" class="com.heliocentris.rms.core.access.EventTypePersisterBean" autowire="byName"/>
+    
+    <bean id="sitePersister" class="com.heliocentris.rms.core.access.SitePersisterBean" autowire="byName"/>
+
+    <bean id="domainPersister" class="com.heliocentris.rms.core.access.DomainPersisterBean" autowire="byName"/>
+
+    <bean id="componentPersister" class="com.heliocentris.rms.core.access.ComponentPersisterBean" autowire="byName"/>
+
+    <bean id="unitTypePersister" class="com.heliocentris.rms.core.access.UnitTypePersisterBean" autowire="byName"/>
+    <bean id="moduleTypePersister" class="com.heliocentris.rms.core.access.ModuleTypePersisterBean" autowire="byName"/>
+
+    <bean id="countryPersister" class="com.heliocentris.rms.core.access.CountryPersisterBean" autowire="byName"/>
+    <bean id="languagePersister" class="com.heliocentris.rms.core.access.LanguagePersisterBean" autowire="byName"/>
+    <bean id="timeZonePersister" class="com.heliocentris.rms.core.access.TimeZonePersisterBean" autowire="byName"/>
+
+    <bean id="currentHeaderPersister" class="com.heliocentris.rms.core.access.CurrentHeaderPersisterBean" autowire="byName"/>
+    <bean id="historyHeaderPersister" class="com.heliocentris.rms.core.access.HistoryHeaderPersisterBean" autowire="byName"/>
+    
+    <bean id="eventPersister" class="com.heliocentris.rms.core.access.EventPersisterBean" autowire="byName"/>
+    <bean id="currentDataPersister" class="com.heliocentris.rms.core.access.CurrentDataPersisterBean" autowire="byName"/>
+    <bean id="historyDataPersister" class="com.heliocentris.rms.core.access.HistoryDataPersisterBean" autowire="byName"/>
+
+	<bean id="dataProcessor" class="com.heliocentris.rms.core.processor.DataProcessorBean" autowire="byName"/>
+	
+	<bean id="service" class="com.heliocentris.rms.util.service.Service" factory-method="getInstance">
+		<property name="services">
+			<map merge="true">
+				<entry key="javax.persistence.EntityManager" value-ref="entityManager" />			
+				<entry key="javax.transaction.UserTransaction" value-ref="userTransaction" />
+				
+				<entry key="com.heliocentris.rms.core.access.StaffProvider" value-ref="staffPersister" />				
+				<entry key="com.heliocentris.rms.core.access.StaffPersister" value-ref="staffPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.DataTypeProvider" value-ref="dataTypePersister" />				
+				<entry key="com.heliocentris.rms.core.access.DataTypePersister" value-ref="dataTypePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.EventTypeProvider" value-ref="eventTypePersister" />				
+				<entry key="com.heliocentris.rms.core.access.EventTypePersister" value-ref="eventTypePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.SiteProvider" value-ref="sitePersister" />				
+				<entry key="com.heliocentris.rms.core.access.SitePersister" value-ref="sitePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.DomainProvider" value-ref="domainPersister" />				
+				<entry key="com.heliocentris.rms.core.access.DomainPersister" value-ref="domainPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.ComponentProvider" value-ref="componentPersister" />				
+				<entry key="com.heliocentris.rms.core.access.ComponentPersister" value-ref="componentPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.UnitTypeProvider" value-ref="unitTypePersister" />				
+				<entry key="com.heliocentris.rms.core.access.UnitTypePersister" value-ref="unitTypePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.ModuleTypeProvider" value-ref="moduleTypePersister" />				
+				<entry key="com.heliocentris.rms.core.access.ModuleTypePersister" value-ref="moduleTypePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.CountryProvider" value-ref="countryPersister" />				
+				<entry key="com.heliocentris.rms.core.access.CountryPersister" value-ref="countryPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.LanguageProvider" value-ref="languagePersister" />				
+				<entry key="com.heliocentris.rms.core.access.LanguagePersister" value-ref="languagePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.TimeZoneProvider" value-ref="timeZonePersister" />				
+				<entry key="com.heliocentris.rms.core.access.TimeZonePersister" value-ref="timeZonePersister" />
+
+				<entry key="com.heliocentris.rms.core.access.EventProvider" value-ref="eventPersister" />				
+				<entry key="com.heliocentris.rms.core.access.EventPersister" value-ref="eventPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.CurrentHeaderProvider" value-ref="currentHeaderPersister" />				
+				<entry key="com.heliocentris.rms.core.access.CurrentHeaderPersister" value-ref="currentHeaderPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.HistoryHeaderProvider" value-ref="historyHeaderPersister" />				
+				<entry key="com.heliocentris.rms.core.access.HistoryHeaderPersister" value-ref="historyHeaderPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.CurrentDataProvider" value-ref="currentDataPersister" />				
+				<entry key="com.heliocentris.rms.core.access.CurrentDataPersister" value-ref="currentDataPersister" />
+
+				<entry key="com.heliocentris.rms.core.access.HistoryDataProvider" value-ref="historyDataPersister" />				
+				<entry key="com.heliocentris.rms.core.access.HistoryDataPersister" value-ref="historyDataPersister" />
+
+				<entry key="com.heliocentris.rms.core.processor.DataProcessor" value-ref="dataProcessor" />				
+				<entry key="com.heliocentris.rms.core.processor.DataProcessor" value-ref="dataProcessor" />
+
+			</map>
+		</property>
+	</bean>
+
+</beans>

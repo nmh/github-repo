@@ -1,0 +1,42 @@
+<configuration debug="false">
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      		<level>ALL</level>
+    	</filter>
+
+        <encoder>
+           <pattern>%n%d{HH:mm:ss.SSS} [%t] %-5level %-50.50(%logger.%M) - %msg</pattern>
+        </encoder>	    
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+	    <file>log/server.log</file>
+	    <append>false</append>
+	    
+        <encoder>
+           <pattern>%n%d{HH:mm:ss.SSS} [%t] %-5level %-50.50(%logger.%M) - %msg</pattern>
+        </encoder>	    
+	</appender>
+
+	<logger name="com.heliocentris.rms" level="INFO" />
+	<logger name="com.heliocentris.rms.core" level="INFO" />
+	<logger name="com.heliocentris.rms.data" level="INFO" />
+	
+	<logger name="com.heliocentris.rms.core.local.data.select" level="INFO" />	
+	
+	<logger name="fdx.event" level="OFF" />
+	<logger name="fdx.junit" level="OFF" />	
+	<logger name="fdx.service" level="OFF" />
+	<logger name="fdx.resource" level="OFF" />
+	<logger name="fdx.persistence" level="OFF" />
+
+	<logger name="org.hibernate" level="ALL" />
+	<logger name="org.springframework" level="ALL" />
+
+	<root level="OFF">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>

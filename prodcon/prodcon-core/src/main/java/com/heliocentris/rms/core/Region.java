@@ -49,7 +49,7 @@ public class Region extends Domain
    private Set<Subregion> subregions;
    
    @Embedded
-   @AssociationOverride(name="positions", joinTable=@JoinTable(name=AREA, joinColumns=@JoinColumn(name=REGION)))
+//   @AssociationOverride(name="positions", joinTable=@JoinTable(name=AREA, joinColumns=@JoinColumn(name=REGION)))
    Area area;
    
    public Area getArea()

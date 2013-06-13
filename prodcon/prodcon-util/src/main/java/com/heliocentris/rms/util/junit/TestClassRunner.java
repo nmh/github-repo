@@ -22,51 +22,44 @@ import com.heliocentris.rms.util.service.Service;
 
 /**
  * Define your test case with
+ * 
  * <pre>
- * @RunWith(TestClassRunner.class)
- * @PersistenceContext(unitName="test", properties={@PersistenceProperty(name="hibernate.hbm2ddl.auto", value="create-drop")})
- *
- * public class YourTestCase
- * {
- *     
+ * &#064;RunWith(TestClassRunner.class)
+ * &#064;PersistenceContext(unitName = &quot;test&quot;, properties = { @PersistenceProperty(name = &quot;hibernate.hbm2ddl.auto&quot;, value = &quot;create-drop&quot;) })
+ * public class YourTestCase {
+ * 
  * }
  * </pre>
  * 
- * and all connection and testClassRunnerTransaction will be handled for you automatically.
+ * and all connection and testClassRunnerTransaction will be handled for you
+ * automatically.
  * 
  * @author thien
  */
 
-public class TestClassRunner extends org.junit.runners.BlockJUnit4ClassRunner
-{
+public class TestClassRunner extends org.junit.runners.BlockJUnit4ClassRunner {
 	private static final Logger logger = LoggerFactory.getLogger(TestClassRunner.class);
 
 	private RunNotifier notifier = null;
-	
-	public TestClassRunner(Class<?> testClass) throws InitializationError 
-	{
+
+	public TestClassRunner(Class<?> testClass) throws InitializationError {
 		super(testClass);
-		try
-		{
+		try {
 			logger.entering(testClass);
-			
+
 			PersistenceContext persistenceContext = testClass.getAnnotation(PersistenceContext.class);
-			if (persistenceContext != null)
-			{
+			if (persistenceContext != null) {
 				EntityManagerFactory entityManagerFactory = createEntityManagerFactory(persistenceContext);
 				Service.addService(EntityManagerFactory.class, entityManagerFactory);
 			}
-			
+
 			Service.Context serviceContext = testClass.getAnnotation(Service.Context.class);
-			if (serviceContext != null)
-			{
+			if (serviceContext != null) {
 				Service.addContext(serviceContext.context());
 			}
-			
+
 			logger.exiting();
-		}
-		catch (Exception exception) 
-		{
+		} catch (Exception exception) {
 			ArrayList<Throwable> errors = new ArrayList<Throwable>();
 			errors.add(exception);
 			throw new InitializationError(errors);
@@ -74,175 +67,131 @@ public class TestClassRunner extends org.junit.runners.BlockJUnit4ClassRunner
 	}
 
 	@Override
-	public void run(RunNotifier notifier) 
-	{
+	public void run(RunNotifier notifier) {
 		this.notifier = notifier;
 
 		RunListener runListener = new RunListener();
-		
+
 		notifier.addFirstListener(runListener);
-      notifier.fireTestRunStarted(getDescription());          
-	
-		try
-		{
+		notifier.fireTestRunStarted(getDescription());
+
+		try {
 			super.run(notifier);
-		}
-		catch (Exception exception) 
-		{
+		} catch (Exception exception) {
 			notifier.fireTestFailure(new Failure(getDescription(), exception));
 		}
-		
-      notifier.fireTestRunFinished(null);
-      notifier.removeListener(runListener);
-		
+
+		notifier.fireTestRunFinished(null);
+		notifier.removeListener(runListener);
+
 	}
 
-	private class RunListener extends org.junit.runner.notification.RunListener
-	{
+	private class RunListener extends org.junit.runner.notification.RunListener {
 
-	    @Override
-		public void testRunStarted(Description description) throws Exception 
-		{
-			try
-			{
+		@Override
+		public void testRunStarted(Description description) throws Exception {
+			try {
 				logger.entering(description);
 				begin();
-			}
-			catch (Exception exception) 
-			{
+			} catch (Exception exception) {
 				notifier.fireTestFailure(new Failure(description, exception));
 			}
-         logger.exiting();
+			logger.exiting();
 		}
 
 		@Override
-		public void testStarted(Description description) throws Exception 
-		{
+		public void testStarted(Description description) throws Exception {
 			logger.entering(description);
-			try
-			{
+			try {
 				begin();
-			}
-			catch (Exception exception) 
-			{
+			} catch (Exception exception) {
 				notifier.fireTestFailure(new Failure(description, exception));
 			}
-         logger.exiting();
-		}
- 
-		@Override
-		public void testFailure(Failure failure) throws Exception 
-		{
-				logger.entering(failure);
-				try
-				{
-					rollback();
-				}
-				catch (Exception exception) 
-				{
-				    logger.catching(exception);
-				}
-				
-				try
-				{
-					begin();
-				}
-				catch (Exception exception) 
-				{
-                logger.catching(exception);
-				}
-				logger.exiting();
+			logger.exiting();
 		}
 
 		@Override
-		public void testFinished(Description description) throws Exception 
-		{
-				logger.entering(description);
-				try
-				{
-					commit();
-				}
-				catch (Exception exception) 
-				{
-					notifier.fireTestFailure(new Failure(description, exception));
-				}
-				
-				try
-				{
-					begin();
-				}
-				catch (Exception exception) 
-				{
-					notifier.fireTestFailure(new Failure(description, exception));
-				}
-				logger.exiting();
+		public void testFailure(Failure failure) throws Exception {
+			logger.entering(failure);
+			try {
+				rollback();
+			} catch (Exception exception) {
+				logger.catching(exception);
+			}
+
+			try {
+				begin();
+			} catch (Exception exception) {
+				logger.catching(exception);
+			}
+			logger.exiting();
 		}
 
+		@Override
+		public void testFinished(Description description) throws Exception {
+			logger.entering(description);
+			try {
+				commit();
+			} catch (Exception exception) {
+				notifier.fireTestFailure(new Failure(description, exception));
+			}
 
-		public void testRunFinished(Result result) throws Exception 
-		{
-			try
-			{
+			try {
+				begin();
+			} catch (Exception exception) {
+				notifier.fireTestFailure(new Failure(description, exception));
+			}
+			logger.exiting();
+		}
+
+		public void testRunFinished(Result result) throws Exception {
+			try {
 				logger.entering(result);
 				commit();
-			}
-			catch (Exception exception) 
-			{
+			} catch (Exception exception) {
 				notifier.fireTestFailure(new Failure(getDescription(), exception));
 			}
 			logger.exiting();
 		}
 	}
-	
-	private EntityManagerFactory createEntityManagerFactory(PersistenceContext persistenceContext) throws Exception
-	{
-	   logger.exiting(persistenceContext);
-	   
+
+	private EntityManagerFactory createEntityManagerFactory(PersistenceContext persistenceContext) throws Exception {
+		logger.exiting(persistenceContext);
+
 		EntityManagerFactory entityManagerFactory = null;
 		Properties properties = new Properties();
-		for (PersistenceProperty property : persistenceContext.properties())
-		{
+		for (PersistenceProperty property : persistenceContext.properties()) {
 			properties.setProperty(property.name(), property.value());
 		}
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceContext.unitName(), properties);
 		return logger.exiting(entityManagerFactory);
 	}
-	
-	private void begin() throws Exception
-	{
+
+	private void begin() throws Exception {
 		UserTransaction userTransaction = Service.getService(UserTransaction.class);
-		if (userTransaction != null)
-		{
-		    if (userTransaction.getStatus() == Status.STATUS_ACTIVE)
-		    {
-		        userTransaction.commit();
-		    }
-		    userTransaction.begin();
+		if (userTransaction != null) {
+			if (userTransaction.getStatus() == Status.STATUS_ACTIVE) {
+				userTransaction.commit();
+			}
+			userTransaction.begin();
 		}
 	}
-	
-	private void commit() throws Exception
-	{
+
+	private void commit() throws Exception {
 		UserTransaction userTransaction = Service.getService(UserTransaction.class);
-		if (userTransaction != null) 
-	    {
-	        if (userTransaction.getStatus() == Status.STATUS_ACTIVE)
-	        {
-	            userTransaction.commit();
-	        }
-	        else if (userTransaction.getStatus() == Status.STATUS_MARKED_ROLLBACK)
-            {
-                userTransaction.rollback();
-            }
-	    }
+		if (userTransaction != null) {
+			if (userTransaction.getStatus() == Status.STATUS_ACTIVE) {
+				userTransaction.commit();
+			} else if (userTransaction.getStatus() == Status.STATUS_MARKED_ROLLBACK) {
+				userTransaction.rollback();
+			}
+		}
 	}
-	
-	private void rollback() throws Exception
-	{
+
+	private void rollback() throws Exception {
 		UserTransaction userTransaction = Service.getService(UserTransaction.class);
-		if (userTransaction != null)
-		{
-		    userTransaction.rollback();
+		if (userTransaction != null) {
+			userTransaction.rollback();
 		}
 	}
 }

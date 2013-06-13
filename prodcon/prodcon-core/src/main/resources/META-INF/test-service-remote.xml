@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jee 
+       http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<!--#####################################-->
+	<!-- Java Enterprise Edition Environment -->
+
+	<jee:jndi-lookup id="userTransaction" jndi-name="/UserTransaction" />
+	
+	<jee:jndi-lookup id="resourceService" jndi-name="ResourceService/remote" />	
+
+	<jee:jndi-lookup id="bundleAccessor" jndi-name="BundleAccessor/remote" />	
+	<jee:jndi-lookup id="resourceAccessor" jndi-name="ResourceAccessor/remote" />	
+
+	<bean class="fdx.service.Service" factory-method="getInstance">
+		<property name="services">
+			<map>
+				<entry key="javax.transaction.UserTransaction" value-ref="userTransaction" />
+				<entry key="fdx.resource.service.ResourceService" value-ref="resourceService" />
+
+				<entry key="fdx.resource.accessor.BundleManager" value-ref="bundleAccessor" />
+				<entry key="fdx.resource.accessor.BundleProvider" value-ref="bundleAccessor" />
+				
+				<entry key="fdx.resource.accessor.ResourceManager" value-ref="resourceAccessor" />
+				<entry key="fdx.resource.accessor.ResourceProvider" value-ref="resourceAccessor" />
+				
+			</map>
+		</property>
+	</bean>
+
+</beans>

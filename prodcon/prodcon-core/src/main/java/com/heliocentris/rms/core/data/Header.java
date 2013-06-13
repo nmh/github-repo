@@ -35,7 +35,7 @@ import com.heliocentris.rms.util.logger.LoggerFactory;
  */
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { Header.SITE, Header.PACKAGE_ID, Header.CREATION_DATE }))
+//@Table(uniqueConstraints = @UniqueConstraint(columnNames = { Header.SITE, Header.PACKAGE_ID, Header.CREATION_DATE }))
 @SequenceGenerator(name = Header.SEQUENCE_NAME, sequenceName = Header.SEQUENCE_NAME, allocationSize = 1, initialValue = 1)
 public abstract class Header implements Serializable
 {

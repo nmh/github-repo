@@ -25,7 +25,7 @@ import com.heliocentris.rms.util.AbstractEntity;
 
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={Data.COMPONENT, Data.DATA_TYPE_ID, Data.CREATION_DATE}))
+//@Table(uniqueConstraints=@UniqueConstraint(columnNames={Data.COMPONENT, Data.DATA_TYPE_ID, Data.CREATION_DATE}))
 @SequenceGenerator(name = Data.SEQUENCE_NAME, sequenceName = Data.SEQUENCE_NAME, allocationSize = 1, initialValue = 1)
 
 public abstract class Data implements Serializable
